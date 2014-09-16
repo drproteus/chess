@@ -38,7 +38,7 @@ class Board
 
   def place_pawn_row(row, color)
     @board[row].each_with_index do |spot, i|
-       @board[row][i] = Pawn.new([row, i], self, color)
+       self[[row, i]] = Pawn.new([row, i], self, color)
      end
 
      nil
@@ -70,8 +70,12 @@ class Board
     nil
   end
 
-  def find_king(color)
-    @board.flatten.each do |piece|
+  def pieces
+    @board.flatten.compact
+  end
+
+  def find_king_pos(color)
+    self.pieces.each do |piece|
       if piece.class == King && piece.color == color
         return piece.pos
       end
@@ -81,8 +85,8 @@ class Board
   end
 
   def in_check?(color)
-    king_pos = find_king(color)
-    @board.flatten.compact.each do |piece|
+    king_pos = find_king_pos(color)
+    self.pieces.each do |piece|
       next if piece.color == color
       return true if piece.moves.include?(king_pos)
     end
@@ -90,25 +94,26 @@ class Board
     false
   end
 
-  def move!(start, end_pos)
-    piece = self[start]
-    # changes piece.pos to end_pos
-    piece.pos = end_pos
+  def pos_on_board?(pos)
+    row, col = pos
+    row.between?(0, height - 1) && col.between?(0, width - 1)
+  end
 
-    # changes Board positions
+  def move!(start, end_pos)
+    return unless pos_on_board?(start) && pos_on_board?(end_pos)
+    piece = self[start]
+    piece.pos = end_pos
     self[start], self[end_pos] = nil, piece
 
     nil
   end
 
   def move(start, end_pos)
-    # finds piece at start position
     piece = self[start]
     if piece.nil?
       raise "No piece at start position."
     end
 
-    # checks piece.moves for end_pos
     unless piece.moves.include?(end_pos)
       raise "Can't move to that position."
     end
@@ -117,14 +122,11 @@ class Board
       raise "Move will leave you in check."
     end
 
-    piece.pos = end_pos
-    self[start], self[end_pos] = nil, piece
-
-    nil
+    move!(start, end_pos)
   end
 
   def checkmate?(color)
-    pieces = @board.flatten.compact.select { |piece| piece.color == color }
+    pieces = self.pieces.select { |piece| piece.color == color }
     pieces.all? { |piece| piece.valid_moves.empty? }
   end
 

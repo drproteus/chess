@@ -7,11 +7,8 @@ class SlidingPiece < Piece
       current_pos = @pos
       loop do
         next_move = vector_sum([current_pos, dir])
-        break unless move_within_boundaries?(next_move)
-        break if !@board[next_move].nil? && @board[next_move].color == self.color
         moves << next_move
-        break unless @board[next_move].nil? #change .empty? to whatever call
-
+        break unless move_within_boundaries?(next_move) && @board[next_move].nil?
         current_pos = next_move
       end
     end

@@ -26,6 +26,10 @@ class Piece
   def valid_move?(target)
     duped_board = @board.dup
     duped_board.move!(@pos, target)
-    !duped_board.in_check?(self.color)
+    return false if duped_board.in_check?(self.color)
+    return false unless move_within_boundaries?(target)
+    return false if !@board[target].nil? && @board[target].color == self.color
+
+    true
   end
 end
