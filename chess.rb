@@ -27,6 +27,16 @@ class Piece
     row, col = pos
     row.between?(0, @board.height) && col.between?(0, @board.width)
   end
+
+  def valid_moves
+    moves.select { |move| valid_move?(move) }
+  end
+
+  def valid_move?(target)
+    duped_board = @board.dup
+    duped_board.move!(@pos, target)
+    !duped_board.in_check?(self.color)
+  end
 end
 
 class SlidingPiece < Piece
@@ -219,12 +229,16 @@ class Board
   end
 
   def display
-    @board.each do |row|
+    puts '  ' + ('a'..'h').to_a.join(' ')
+    @board.each_with_index do |row, index|
+      print "#{8 - index} "
       row.each do |piece|
-        print piece.nil? ? ' ' : piece.to_s
+        print (piece.nil? ? ' ' : piece.to_s) + ' '
       end
+      print "#{8 - index}"
       puts
     end
+    puts '  ' + ('a'..'h').to_a.join(' ')
 
     nil
   end
@@ -249,6 +263,16 @@ class Board
     false
   end
 
+  def move!(start, end_pos)
+    # changes piece.pos to end_pos
+    piece.pos = end_pos
+
+    # changes Board positions
+    self[start], self[end_pos] = nil, piece
+
+    nil
+  end
+
   def move(start, end_pos)
     # finds piece at start position
     piece = self[start]
@@ -258,16 +282,22 @@ class Board
 
     # checks piece.moves for end_pos
     unless piece.moves.include?(end_pos)
-      raise "Not a valid move."
+      raise "Can't move to that position."
     end
 
-    # changes piece.pos to end_pos
-    piece.pos = end_pos
+    unless piece.valid_moves.include?(end_pos)
+      raise "Move will leave you in check."
+    end
 
-    # changes Board positions
+    piece.pos = end_pos
     self[start], self[end_pos] = nil, piece
 
     nil
+  end
+
+  def checkmate(color)
+    pieces = @board.flatten.compact.select { |piece| piece.color == color }
+    pieces.all? { |piece| piece.valid_moves.empty? }
   end
 
   def dup
@@ -284,4 +314,30 @@ class Board
     duped_board
   end
 
+end
+
+class Game
+  def initialize(white, black)
+    @board = Board.new
+    @player1 = white
+    @player2 = black
+  end
+
+
+
+end
+
+class HumanPlayer
+  def play_turn
+    move_string = gets.chomp
+    start, target = move_string.scan(/\D\d/)
+    [parse(start), parse(target)]
+
+  end
+
+  def parse(pos_string)
+    letters, numbers = ('a'..'h').to_a, (1..8).to_a.reverse
+
+    [letters.index(pos_string[0]), numbers.index(pos_string[1].to_i)]
+  end
 end
