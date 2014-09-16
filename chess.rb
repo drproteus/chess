@@ -215,4 +215,42 @@ class Board
 
     nil
   end
+
+  def find_king(color)
+    @board.flatten.each do |piece|
+      if piece.class == King && piece.color == color
+        return piece.pos
+      end
+    end
+    nil
+  end
+
+  def in_check?(color)
+    king_pos = find_king(color)
+    @board.flatten.each do |piece|
+      next if piece.color == color
+      return true if piece.moves.include?(king_pos)
+    end
+    false
+  end
+
+  def move(start, end_pos)
+    # finds piece at start position
+    piece = @board[start]
+    if piece.nil?
+      raise "No piece at start position."
+    end
+
+    # checks piece.moves for end_pos
+    unless piece.moves.include?(end_pos)
+      raise "Not a valid move."
+    end
+
+    # changes piece.pos to end_pos
+    piece.pos = end_pos
+
+    # changes Board positions
+    @board[start], @board[end_pos] = nil, piece
+  end
+
 end
