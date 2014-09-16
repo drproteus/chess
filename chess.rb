@@ -253,4 +253,18 @@ class Board
     @board[start], @board[end_pos] = nil, piece
   end
 
+  def dup
+    duped_board = Array.new(8) { Array.new(8) }
+    @board.each_with_index do |row, row_index|
+      row.each_with_index do |piece, col_index|
+        next if piece.nil?
+        pos = [row_index, col_index]
+        color = piece.color
+        duped_board[row_index][col_index] = piece.class.new(pos, duped_board, color)
+      end
+    end
+
+    duped_board
+  end
+
 end
