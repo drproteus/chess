@@ -25,7 +25,7 @@ class Piece
 
   def move_within_boundaries?(pos)
     row, col = pos
-    row.between?(0, @board.height) && col.between?(0, @board.width)
+    row.between?(0, @board.height - 1) && col.between?(0, @board.width - 1)
   end
 
   def valid_moves
@@ -256,7 +256,7 @@ class Board
   def in_check?(color)
     king_pos = find_king(color)
     @board.flatten.each do |piece|
-      next if piece.color == color
+      next if piece.nil? || piece.color == color
       return true if piece.moves.include?(king_pos)
     end
 
@@ -264,6 +264,7 @@ class Board
   end
 
   def move!(start, end_pos)
+    piece = self[start]
     # changes piece.pos to end_pos
     piece.pos = end_pos
 
@@ -295,19 +296,21 @@ class Board
     nil
   end
 
-  def checkmate(color)
+  def checkmate?(color)
     pieces = @board.flatten.compact.select { |piece| piece.color == color }
     pieces.all? { |piece| piece.valid_moves.empty? }
   end
 
   def dup
-    duped_board = Array.new(8) { Array.new(8) }
+    duped_board = Board.new #Array.new(8) { Array.new(8) }
     @board.each_with_index do |row, row_index|
       row.each_with_index do |piece, col_index|
-        next if piece.nil?
         pos = [row_index, col_index]
-        color = piece.color
-        duped_board[row_index][col_index] = piece.class.new(pos, duped_board, color)
+        if piece.nil?
+          duped_board[pos] = nil
+        else
+          duped_board[pos] = piece.class.new(pos, duped_board, piece.color)
+        end
       end
     end
 
@@ -322,29 +325,41 @@ class Game
     @player1 = white
     @player2 = black
     @move_count = 0
+    @curr_player = :w
   end
 
   def play
-    system('clear')
-    @board.display
     # needs to communicate the correct color to the board
-    until @board.checkmate
+    until @board.checkmate?(:w) || @board.checkmate?(:b)
+      system('clear')
+      @board.display
       if @move_count.even?
         begin
+          puts "Player 1:"
           start, target = @player1.play_turn
           make_move(:w, start, target)
         rescue
+          puts "Please select valid move."
           retry
         end
       else
         begin
+          puts "Player 2:"
           start, target = @player2.play_turn
           make_move(:b, start, target)
         rescue
+          puts "Please select valid move."
           retry
         end
       end
+      @move_count += 1
     end
+
+    system('clear')
+    @board.display
+    winner = @board.checkmate?(:w) ? 'Player 2' : 'Player 1'
+    puts "CHECKMATE. #{winner} wins."
+
   end
 
   def make_move(color, start, target)
@@ -366,7 +381,7 @@ class HumanPlayer
   def parse(pos_string)
     letters, numbers = ('a'..'h').to_a, (1..8).to_a.reverse
 
-    [letters.index(pos_string[0]), numbers.index(pos_string[1].to_i)]
+    [numbers.index(pos_string[1].to_i), letters.index(pos_string[0])]
   end
 end
 
