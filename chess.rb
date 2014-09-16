@@ -10,6 +10,7 @@ def vector_sum(vectors)
 end
 
 class Piece
+  attr_reader :color, :pos
   # row, col
   DELTAS = { nw: [1, -1],  n: [1, 0],  ne: [1, 1],
                   w: [0, -1],               e: [0, 1],
@@ -23,20 +24,19 @@ class Piece
 
   def move_within_boundaries?(pos)
     row, col = pos
-    row.between?(0..@board.height) && col.between?(0..@board.width)
+    row.between?(0, @board.height) && col.between?(0, @board.width)
   end
-
 end
 
 class SlidingPiece < Piece
   def moves
     moves = []
     move_dirs.each do |dir|
-      current_pos = pos
+      current_pos = @pos
       loop do
         next_move = vector_sum([current_pos, dir])
         break unless move_within_boundaries?(next_move)
-        break if @board[next_move].color == self.color
+        break if !@board[next_move].nil? && @board[next_move].color == self.color
         moves << next_move
         break unless @board[next_move].nil? #change .empty? to whatever call
 
@@ -54,7 +54,7 @@ class SteppingPiece < Piece
     move_dirs.each do |dir|
       next_move = vector_sum([pos, dir])
       next unless move_within_boundaries?(next_move)
-      next if @board[next_move].color == self.color
+      next if !@board[next_move].nil? && @board[next_move].color == self.color
       moves << next_move if @board[next_move].nil? #change empty
     end
 
@@ -63,16 +63,11 @@ class SteppingPiece < Piece
 end
 
 class Pawn < Piece
-  def initialize(pos, board, color)
-    super
-    @moved = false
-  end
-
   def move_dirs
     case @color
-    when :w
-      [DELTAS[:n], DELTAS[:ne], DELTAS[:nw]]
     when :b
+      [DELTAS[:n], DELTAS[:ne], DELTAS[:nw]]
+    when :w
       [DELTAS[:s], DELTAS[:se], DELTAS[:sw]]
     end
   end
@@ -80,16 +75,24 @@ class Pawn < Piece
   def moves
     moves = []
     dirs = move_dirs
-    next_move = vector_sum([@pos, dirs.first])
-    moves << next_move if @board[next_move].empty?
-    moves << vector_sum([next_move, dirs.first]) unless @moved
-    next_move = vector_sum([@pos, dirs[1]])
-    unless @board[next_move].empty? || @board[next_move].color == self.color
-      moves << next_move
+
+    advance = vector_sum([@pos, dirs[0]])
+    p advance
+    if @board[advance].nil?
+      moves << advance
+      unless moved?
+        advance = vector_sum([advance, dirs[0]])
+        p advance
+        moves << advance if @board[advance].nil?
+      end
     end
-    next_move = vector_sum([@pos, dirs.last])
-    unless @board[next_move].empty? || @board[next_move].color == self.color
-      moves << next_move
+
+    2.times do |i|
+      advance = vector_sum([@pos, dirs[i+1]])
+      p advance
+      unless @board[advance].nil? || @board[advance].color == self.color
+        moves << advance
+      end
     end
 
     moves.select { |move| move_within_boundaries?(move) }
@@ -98,6 +101,16 @@ class Pawn < Piece
   def to_s
     @color == :b ? "\u{265f}" : "\u{2659}"
   end
+
+  def moved?
+    case @color
+    when :w
+      @pos.first != @board.height - 2
+    when :b
+      @pos.first != 1
+    end
+  end
+
 end
 
 class Bishop < SlidingPiece
@@ -200,7 +213,7 @@ class Board
   def place_piece_row(row, color)
     starting_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
     @board[row].each_with_index do |spot, i|
-      @board[row][i] = starting_row[i].new([row, i], @board, color)
+      @board[row][i] = starting_row[i].new([row, i], self, color)
     end
     nil
   end
@@ -208,7 +221,7 @@ class Board
   def display
     @board.each do |row|
       row.each do |piece|
-        print piece.to_s
+        print piece.nil? ? ' ' : piece.to_s
       end
       puts
     end
