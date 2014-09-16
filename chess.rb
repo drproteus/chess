@@ -12,9 +12,9 @@ end
 class Piece
   attr_reader :color, :pos
   # row, col
-  DELTAS = { nw: [1, -1],  n: [1, 0],  ne: [1, 1],
+  DELTAS = { nw: [-1, -1],  n: [-1, 0],  ne: [-1, 1],
                   w: [0, -1],               e: [0, 1],
-                 sw: [-1, -1], s: [-1, 0], se: [-1, 1] }
+                 sw: [1, -1], s: [1, 0], se: [1, 1] }
 
   def initialize(pos, board, color)
     @pos = pos
@@ -65,9 +65,9 @@ end
 class Pawn < Piece
   def move_dirs
     case @color
-    when :b
-      [DELTAS[:n], DELTAS[:ne], DELTAS[:nw]]
     when :w
+      [DELTAS[:n], DELTAS[:ne], DELTAS[:nw]]
+    when :b
       [DELTAS[:s], DELTAS[:se], DELTAS[:sw]]
     end
   end
@@ -77,19 +77,16 @@ class Pawn < Piece
     dirs = move_dirs
 
     advance = vector_sum([@pos, dirs[0]])
-    p advance
     if @board[advance].nil?
       moves << advance
       unless moved?
         advance = vector_sum([advance, dirs[0]])
-        p advance
         moves << advance if @board[advance].nil?
       end
     end
 
     2.times do |i|
-      advance = vector_sum([@pos, dirs[i+1]])
-      p advance
+      advance = vector_sum([@pos, dirs[i + 1]])
       unless @board[advance].nil? || @board[advance].color == self.color
         moves << advance
       end
