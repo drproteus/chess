@@ -1,4 +1,11 @@
 class HumanPlayer
+  attr_reader :color, :name
+
+  def initialize(color, name)
+    @color = color
+    @name = name
+  end
+
   def play_turn
     print "Input start, target positions: "
     move_string = gets.chomp
