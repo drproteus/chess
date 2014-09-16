@@ -66,7 +66,7 @@ class SteppingPiece < Piece
       next_move = vector_sum([pos, dir])
       next unless move_within_boundaries?(next_move)
       next if !@board[next_move].nil? && @board[next_move].color == self.color
-      moves << next_move if @board[next_move].nil? #change empty
+      moves << next_move
     end
 
     moves
@@ -154,14 +154,14 @@ end
 class Knight < SteppingPiece
   def move_dirs
     [
-      [DELTAS[:n]] * 3 + [DELTAS[:e]],
-      [DELTAS[:n]] * 3 + [DELTAS[:w]],
-      [DELTAS[:s]] * 3 + [DELTAS[:e]],
-      [DELTAS[:s]] * 3 + [DELTAS[:w]],
-      [DELTAS[:e]] * 3 + [DELTAS[:n]],
-      [DELTAS[:w]] * 3 + [DELTAS[:n]],
-      [DELTAS[:e]] * 3 + [DELTAS[:s]],
-      [DELTAS[:w]] * 3 + [DELTAS[:s]],
+      [DELTAS[:n]] * 2 + [DELTAS[:e]],
+      [DELTAS[:n]] * 2 + [DELTAS[:w]],
+      [DELTAS[:s]] * 2 + [DELTAS[:e]],
+      [DELTAS[:s]] * 2 + [DELTAS[:w]],
+      [DELTAS[:e]] * 2 + [DELTAS[:n]],
+      [DELTAS[:w]] * 2 + [DELTAS[:n]],
+      [DELTAS[:e]] * 2 + [DELTAS[:s]],
+      [DELTAS[:w]] * 2 + [DELTAS[:s]],
     ].map { |vec| vector_sum(vec) }
   end
 
@@ -229,16 +229,18 @@ class Board
   end
 
   def display
-    puts '  ' + ('a'..'h').to_a.join(' ')
+    puts ''
+    puts '    ' + ('a'..'h').to_a.join(' ')
     @board.each_with_index do |row, index|
-      print "#{8 - index} "
+      print "  #{8 - index} "
       row.each do |piece|
         print (piece.nil? ? ' ' : piece.to_s) + ' '
       end
       print "#{8 - index}"
       puts
     end
-    puts '  ' + ('a'..'h').to_a.join(' ')
+    puts '    ' + ('a'..'h').to_a.join(' ')
+    puts ' '
 
     nil
   end
@@ -255,8 +257,8 @@ class Board
 
   def in_check?(color)
     king_pos = find_king(color)
-    @board.flatten.each do |piece|
-      next if piece.nil? || piece.color == color
+    @board.flatten.compact.each do |piece|
+      next if piece.color == color
       return true if piece.moves.include?(king_pos)
     end
 
@@ -330,24 +332,29 @@ class Game
 
   def play
     # needs to communicate the correct color to the board
+    start_time = Time.now
     until @board.checkmate?(:w) || @board.checkmate?(:b)
       system('clear')
       @board.display
       if @move_count.even?
         begin
+          puts "Check." if @board.in_check?(:w)
           puts "Player 1:"
           start, target = @player1.play_turn
           make_move(:w, start, target)
-        rescue
+        rescue RuntimeError => e
+          puts e.message
           puts "Please select valid move."
           retry
         end
       else
         begin
+          puts "Check." if @board.in_check?(:b)
           puts "Player 2:"
           start, target = @player2.play_turn
           make_move(:b, start, target)
-        rescue
+        rescue RuntimeError => e
+          puts e.message
           puts "Please select valid move."
           retry
         end
@@ -359,10 +366,13 @@ class Game
     @board.display
     winner = @board.checkmate?(:w) ? 'Player 2' : 'Player 1'
     puts "CHECKMATE. #{winner} wins."
+    puts "Game lasted for #{@move_count / 2} turns."
+    puts "Game time: #{Time.now - start_time}s"
 
   end
 
   def make_move(color, start, target)
+    raise "Empty start position" if @board[start].nil?
     raise "Incorrect color piece" if @board[start].color != color
     @board.move(start, target)
   end
