@@ -321,18 +321,46 @@ class Game
     @board = Board.new
     @player1 = white
     @player2 = black
+    @move_count = 0
   end
 
+  def play
+    system('clear')
+    @board.display
+    # needs to communicate the correct color to the board
+    until @board.checkmate
+      if @move_count.even?
+        begin
+          start, target = @player1.play_turn
+          make_move(:w, start, target)
+        rescue
+          retry
+        end
+      else
+        begin
+          start, target = @player2.play_turn
+          make_move(:b, start, target)
+        rescue
+          retry
+        end
+      end
+    end
+  end
 
+  def make_move(color, start, target)
+    raise "Incorrect color piece" if @board[start].color != color
+    @board.move(start, target)
+  end
 
 end
 
 class HumanPlayer
   def play_turn
+    print "Input start, target positions: "
     move_string = gets.chomp
     start, target = move_string.scan(/\D\d/)
-    [parse(start), parse(target)]
 
+    [parse(start), parse(target)]
   end
 
   def parse(pos_string)
@@ -340,4 +368,11 @@ class HumanPlayer
 
     [letters.index(pos_string[0]), numbers.index(pos_string[1].to_i)]
   end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  player1 = HumanPlayer.new
+  player2 = HumanPlayer.new
+  game = Game.new(player1, player2)
+  game.play
 end
