@@ -10,7 +10,8 @@ def vector_sum(vectors)
 end
 
 class Piece
-  attr_reader :color, :pos
+  attr_reader :color
+  attr_accessor :pos
   # row, col
   DELTAS = { nw: [-1, -1],  n: [-1, 0],  ne: [-1, 1],
                   w: [0, -1],               e: [0, 1],
@@ -204,6 +205,7 @@ class Board
     @board[row].each_with_index do |spot, i|
        @board[row][i] = Pawn.new([row, i], self, color)
      end
+
      nil
   end
 
@@ -212,6 +214,7 @@ class Board
     @board[row].each_with_index do |spot, i|
       @board[row][i] = starting_row[i].new([row, i], self, color)
     end
+
     nil
   end
 
@@ -232,6 +235,7 @@ class Board
         return piece.pos
       end
     end
+
     nil
   end
 
@@ -241,12 +245,13 @@ class Board
       next if piece.color == color
       return true if piece.moves.include?(king_pos)
     end
+
     false
   end
 
   def move(start, end_pos)
     # finds piece at start position
-    piece = @board[start]
+    piece = self[start]
     if piece.nil?
       raise "No piece at start position."
     end
@@ -260,7 +265,9 @@ class Board
     piece.pos = end_pos
 
     # changes Board positions
-    @board[start], @board[end_pos] = nil, piece
+    self[start], self[end_pos] = nil, piece
+
+    nil
   end
 
   def dup
