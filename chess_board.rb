@@ -122,7 +122,22 @@ class Board
       raise "Move will leave you in check."
     end
 
+    outcome = outcome_string(start, end_pos)
+
     move!(start, end_pos)
+
+    outcome
+  end
+
+  def capture_string(start, target)
+    piece = self[start]
+    target_piece = self[target]
+    outcome = nil
+    unless target_piece.nil?
+      outcome = "#{piece.class}(#{piece.color}) took #{target_piece.class}(#{target_piece.color})"
+    end
+
+    outcome
   end
 
   def checkmate?(color)

@@ -14,15 +14,17 @@ class Game
 
   def play
     # needs to communicate the correct color to the board
+    move_outcome = nil
     start_time = Time.now
     until @board.checkmate?(:w) || @board.checkmate?(:b)
       system('clear')
       @board.display
       begin
+        puts move_outcome unless move_outcome.nil?
         puts "Check." if @board.in_check?(@curr_player)
-          puts "#{@curr_player.name}'s turn."
+        puts "#{@curr_player.name}'s turn."
         start, target = @curr_player.play_turn
-        make_move(@curr_player.color, start, target)
+        move_outcome = make_move(@curr_player.color, start, target)
       rescue RuntimeError => e
         puts e.message
         puts "Please select valid move."
@@ -44,7 +46,7 @@ class Game
   def make_move(color, start, target)
     raise "Empty start position" if @board[start].nil?
     raise "Incorrect color piece" if @board[start].color != color
-    @board.move(start, target)
+    move_outcome = @board.move(start, target)
   end
 
 end
