@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require_relative 'chess_board'
 require_relative 'human_player'
 
