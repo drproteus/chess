@@ -1,17 +1,26 @@
 require_relative 'vector_sum'
 
 class Piece
-  attr_reader :color
-  attr_accessor :pos
+  attr_reader :color, :pos, :prev_pos, :last_turn_moved
+
   # row, col
-  DELTAS = { nw: [-1, -1],  n: [-1, 0],  ne: [-1, 1],
-                  w: [0, -1],               e: [0, 1],
-                 sw: [1, -1], s: [1, 0], se: [1, 1] }
+  DELTAS = { nw: [-1, -1],  n: [-1, 0], ne: [-1, 1],
+              w: [0, -1],                e: [0, 1],
+             sw: [1, -1],   s: [1, 0],  se: [1, 1] }
 
   def initialize(pos, board, color)
     @pos = pos
     @board = board
     @color = color
+    @prev_pos = pos
+    @last_turn_moved = nil
+  end
+
+  def move_to(target)
+    @last_turn_moved = @board.move_count
+    @prev_pos = self.pos
+    @board[self.pos], @board[target] = nil, self
+    @pos = target
   end
 
   def move_within_boundaries?(pos)

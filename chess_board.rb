@@ -6,8 +6,11 @@ require_relative 'pieces/bishop'
 require_relative 'pieces/rook'
 
 class Board
+  attr_reader :move_count
+
   def initialize
     @board = Array.new(8) { Array.new(8) }
+    @move_count = 0
     place_pieces
   end
 
@@ -102,8 +105,8 @@ class Board
   def move!(start, end_pos)
     return unless pos_on_board?(start) && pos_on_board?(end_pos)
     piece = self[start]
-    piece.pos = end_pos
-    self[start], self[end_pos] = nil, piece
+    piece.move_to(end_pos)
+    # self[start], self[end_pos] = nil, piece
 
     nil
   end
@@ -125,7 +128,7 @@ class Board
     outcome = outcome_string(start, end_pos)
 
     move!(start, end_pos)
-
+    @move_count += 1
     outcome
   end
 

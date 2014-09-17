@@ -8,7 +8,6 @@ class Game
     @board = Board.new
     @player1 = white
     @player2 = black
-    @move_count = 0
     @curr_player = @player1
   end
 
@@ -31,14 +30,13 @@ class Game
         retry
       end
       @curr_player = (@curr_player == @player1 ? @player2 : @player1)
-      @move_count += 1
     end
 
     system('clear')
     @board.display
     winner = @board.checkmate?(:w) ? @player2.name : @player1.name
     puts "CHECKMATE. #{winner} wins."
-    puts "Game lasted for #{@move_count / 2} turns."
+    puts "Game lasted for #{@board.move_count / 2} turns."
     puts "Game time: #{Time.now - start_time}s"
 
   end
