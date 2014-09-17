@@ -129,7 +129,7 @@ class Board
     outcome
   end
 
-  def capture_string(start, target)
+  def outcome_string(start, target)
     piece = self[start]
     target_piece = self[target]
     outcome = nil
