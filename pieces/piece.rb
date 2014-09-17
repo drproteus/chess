@@ -19,6 +19,9 @@ class Piece
   def move_to(target)
     @last_turn_moved = @board.move_count
     @prev_pos = self.pos
+    unless @board[target].nil?
+      @board.captured_pieces[@board[target].color] << @board[target]
+    end
     @board[self.pos], @board[target] = nil, self
     @pos = target
   end

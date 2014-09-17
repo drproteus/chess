@@ -7,11 +7,12 @@ require_relative 'pieces/rook'
 require 'colorize'
 
 class Board
-  attr_reader :move_count
+  attr_reader :move_count, :captured_pieces
 
   def initialize
     @board = Array.new(8) { Array.new(8) }
     @move_count = 0
+    @captured_pieces = { :w => [], :b => [] }
     place_pieces
   end
 
@@ -135,6 +136,11 @@ class Board
     end
 
     duped_board
+  end
+
+  def pawn_promote(pawn, new_class)
+    pos, color = pawn.pos, pawn.color
+    self[pos] = new_class.new(pos, self, color)
   end
 
   private

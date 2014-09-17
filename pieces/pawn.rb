@@ -15,12 +15,27 @@ class Pawn < Piece
     if en_passant?(target)
       case self.color
       when :b
+        captured_piece = @board[vector_sum([target, DELTAS[:n]])]
+        @board.captured_pieces[captured_piece.color] << captured_piece
         @board[vector_sum([target, DELTAS[:n]])] = nil
       when :w
+        captured_piece = @board[vector_sum([target, DELTAS[:s]])]
+        @board.captured_pieces[captured_piece.color] << captured_piece
         @board[vector_sum([target, DELTAS[:s]])] = nil
       end
     end
     super
+
+  end
+
+  def can_promote?
+    row, col = self.pos
+    case self.color
+    when :b
+      row == 7
+    when :w
+      row == 0
+    end
   end
 
   def moves

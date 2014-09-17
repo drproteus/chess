@@ -9,6 +9,8 @@ class Game
     @player1 = white
     @player2 = black
     @curr_player = @player1
+    @piece_hash = { "King" => King, "Queen" => Queen, "Knight" => Knight,
+                    "Rook" => Rook, "Bishop" => Bishop, "Pawn" => Pawn}
   end
 
   def play
@@ -29,6 +31,16 @@ class Game
         puts e.message
         puts "Please select valid move."
         retry
+      end
+      if @board[parse(target)].class == Pawn && @board[parse(target)].can_promote?
+        loop do
+          puts "Pawn can be promoted. Input class for new piece."
+          new_class = gets.chomp.capitalize
+          if @piece_hash.has_key?(new_class)
+            @board.pawn_promote(@board[parse(target)], @piece_hash[new_class])
+            break
+          end
+        end
       end
       moves << [start, target, @curr_player.color]
       @curr_player = (@curr_player == @player1 ? @player2 : @player1)
