@@ -56,15 +56,18 @@ class Board
     nil
   end
 
-  def display
+  def display(moves)
     puts ''
-    puts '    ' + ('a'..'h').to_a.join(' ')
+    puts '    ' + ('a'..'h').to_a.join(' ') + '      Turn Log'
     @board.each_with_index do |row, index|
       print "  #{8 - index} "
       row.each do |piece|
         print (piece.nil? ? ' ' : piece.to_s) + ' '
       end
       print "#{8 - index}"
+      unless moves.empty? || moves[index].nil?
+        print "     #{moves[index].join('  ')}" if index.between?(0, 7)
+      end
       puts
     end
     puts '    ' + ('a'..'h').to_a.join(' ')
