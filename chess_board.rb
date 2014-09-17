@@ -4,6 +4,7 @@ require_relative 'pieces/queen'
 require_relative 'pieces/pawn'
 require_relative 'pieces/bishop'
 require_relative 'pieces/rook'
+require 'colorize'
 
 class Board
   attr_reader :move_count
@@ -58,19 +59,24 @@ class Board
 
   def display(moves)
     puts ''
-    puts '    ' + ('a'..'h').to_a.join(' ') + '      Turn Log'
-    @board.each_with_index do |row, index|
-      print "  #{8 - index} "
-      row.each do |piece|
-        print (piece.nil? ? ' ' : piece.to_s) + ' '
+    puts '     ' + ('a'..'h').to_a.join('  ') + '      Turn Log'
+    @board.each_with_index do |row, row_index|
+      print "  #{8 - row_index} "
+      row.each_with_index do |piece, col_index|
+        string = ' ' + (piece.nil? ? ' ' : piece.to_s) + ' '
+        if (row_index + col_index).even?
+          print string.colorize(:background => :white)
+        else
+          print string
+        end
       end
-      print "#{8 - index}"
-      unless moves.empty? || moves[index].nil?
-        print "     #{moves[index].join('  ')}" if index.between?(0, 7)
+      print " #{8 - row_index}"
+      unless moves.empty? || moves[row_index].nil?
+        print "     #{moves[row_index].join('  ')}" if row_index.between?(0, 7)
       end
       puts
     end
-    puts '    ' + ('a'..'h').to_a.join(' ')
+    puts '     ' + ('a'..'h').to_a.join('  ')
     puts ' '
 
     nil
