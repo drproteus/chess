@@ -7,8 +7,8 @@ require_relative 'pieces/rook'
 require 'colorize'
 
 class Board
-  attr_reader :move_count, :captured_pieces
-  attr_accessor :moves
+  attr_reader :captured_pieces
+  attr_accessor :moves, :fifty_move_rule_counter, :move_count, :position_history
 
   def initialize(custom_game = false)
     @board = Array.new(8) { Array.new(8) }
@@ -16,6 +16,8 @@ class Board
     @captured_pieces = { :w => [], :b => [] }
     place_pieces unless custom_game
     @moves = []
+    @position_history = []
+    @fifty_move_rule_counter = 0
   end
 
   def height
@@ -126,12 +128,28 @@ class Board
 
     move!(start, end_pos)
     @move_count += 1
+    @fifty_move_rule_counter += 1
+    @fifty_move_rule_counter = 0 unless outcome.nil?
+    @position_history << self.dup
     outcome
   end
 
   def checkmate?(color)
-    pieces = self.pieces.select { |piece| piece.color == color }
-    pieces.all? { |piece| piece.valid_moves.empty? }
+    player_pieces = self.pieces.select { |piece| piece.color == color }
+    player_pieces.all? { |piece| piece.valid_moves.empty? }
+  end
+
+  def ==(other_board)
+    8.times do |row_index|
+      8.times do |col_index|
+        other_piece = other_board[[row_index, col_index]]
+        next if other_piece.nil?
+        this_piece = self[[row_index, col_index]]
+        return false if other_piece.class != this_piece.class
+        return false if other_piece.color != this_piece.color
+      end
+    end
+    true
   end
 
   def dup
@@ -148,6 +166,29 @@ class Board
     end
 
     duped_board
+  end
+
+  def draw?
+    stalemate? || threefold_repetition? || fifty_move_rule?
+  end
+
+  def stalemate?
+    curr_player = move_count.even? ? :w : :b
+
+    return false if in_check?(curr_player)
+    player_pieces = pieces.select{ |piece| piece.color == curr_player }
+    player_pieces.all? { |piece| piece.valid_moves.empty? }
+  end
+
+  def threefold_repetition?
+    @position_history.each do |position|
+      return true if @position_history.count(position) == 3
+    end
+    false
+  end
+
+  def fifty_move_rule?
+    @fifty_move_rule_counter == 50
   end
 
   def pawn_promote(pawn, new_class)

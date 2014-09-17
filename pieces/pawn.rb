@@ -24,6 +24,7 @@ class Pawn < Piece
         @board[vector_sum([target, DELTAS[:s]])] = nil
       end
     end
+    @board.fifty_move_rule_counter = 0
     super
   end
 

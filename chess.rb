@@ -38,12 +38,12 @@ class Game
     @start_time = Time.now
     @moves = []
 
-    until @board.checkmate?(:w) || @board.checkmate?(:b)
+    until @board.checkmate?(:w) || @board.checkmate?(:b) || @board.draw?
       system('clear')
       @board.display
 
       puts @move_outcome unless @move_outcome.nil?
-      puts "Check." if @board.in_check?(@curr_playPIECE_HASHer)
+      puts "Check." if @board.in_check?(@curr_player)
 
       turn
 
@@ -149,6 +149,20 @@ class Game
         retry
       end
     end
+    puts "Who starts the game? (w/b)"
+    color = nil
+    begin
+      input = gets.chomp.downcase
+      color = input[0].to_sym
+      raise unless color == :w || color == :b
+    rescue
+      retry
+    end
+    if color == :b
+      @board.move_count += 1
+      @curr_player = @player2
+    end
+    @board.position_history << @board.dup
   end
 
   def make_move(color, start, target)
@@ -160,8 +174,23 @@ class Game
   def game_over
     system('clear')
     @board.display
-    winner = @board.checkmate?(:w) ? @player2.name : @player1.name
-    puts "CHECKMATE. #{winner} wins."
+
+    if @board.draw?
+      if @board.stalemate?
+        puts "Board ends in a stalemate! No valid moves for current player."
+      elsif @board.threefold_repetition?
+        puts "Board ends due to the threefold repetition rule!"
+        puts "This board position has appeared three times already."
+        puts "No progress is being made! Game over."
+      else
+        puts "Fifty moves have gone by with zero captures and zero pawn moves!"
+        puts "Boring!"
+        puts "Game over."
+      end
+    elsif
+      winner = @board.checkmate?(:w) ? @player2.name : @player1.name
+      puts "CHECKMATE. #{winner} wins."
+    end
     puts "Game lasted for #{@board.move_count / 2} turns."
     puts "Game time: #{Time.now - @start_time}s"
   end

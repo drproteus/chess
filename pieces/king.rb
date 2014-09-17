@@ -11,7 +11,7 @@ class King < SteppingPiece
 
   def moves
     moves = super
-    if self.last_turn_moved.nil?
+    unless has_moved?
       moves << vector_sum([[0, 2], self.pos])
       moves << vector_sum([[0, -2], self.pos])
     end
@@ -26,6 +26,16 @@ class King < SteppingPiece
       castle_left(target) if can_castle_left?(target)
     end
     super
+  end
+
+  def has_moved?
+    case @color
+    when :w
+      return false if @pos == [7, 4] && self.last_turn_moved.nil?
+    when :b
+      return false if @pos == [0, 4] && self.last_turn_moved.nil?
+    end
+    true
   end
 
   private
