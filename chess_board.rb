@@ -8,12 +8,14 @@ require 'colorize'
 
 class Board
   attr_reader :move_count, :captured_pieces
+  attr_accessor :moves
 
   def initialize(custom_game = false)
     @board = Array.new(8) { Array.new(8) }
     @move_count = 0
     @captured_pieces = { :w => [], :b => [] }
     place_pieces unless custom_game
+    @moves = []
   end
 
   def height
@@ -35,7 +37,7 @@ class Board
   end
 
 
-  def display(moves= [])
+  def display
     puts ''
     puts '     ' + ('a'..'h').to_a.join('  ') + '      Turn Log'
     @board.each_with_index do |row, row_index|
@@ -49,8 +51,9 @@ class Board
         end
       end
       print " #{8 - row_index}"
-      unless moves.empty? || moves[row_index].nil?
-        print "     #{moves[row_index].join('  ')}" if row_index.between?(0, 7)
+      move_log = @moves.last(8)
+      unless move_log.empty? || move_log[row_index].nil?
+        print "     #{move_log[row_index].join('  ')}" if row_index.between?(0, 7)
       else
         print "              "
       end

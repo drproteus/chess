@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
-LOGO = %q{      ___          ___          ___          ___          ___
+require_relative 'chess_board'
+require_relative 'human_player'
+require 'yaml'
+
+LOGO = %q{
+      ___          ___          ___          ___          ___
      /\  \        /\__\        /\  \        /\  \        /\  \
     /::\  \      /:/  /       /::\  \      /::\  \      /::\  \
    /:/\:\  \    /:/__/       /:/\ \  \    /:/\ \  \    /:/\:\  \
@@ -9,17 +14,23 @@ LOGO = %q{      ___          ___          ___          ___          ___
   \:\  \           \::/  /  \:\ \:\__\   \:\ \:\__\     |:|::/  /
    \:\  \          /:/  /    \:\/:/  /    \:\/:/  /     |:|\/__/
     \:\__\        /:/  /      \::/  /      \::/  /      |:|  |
-     \/__/        \/__/        \/__/        \/__/        \|__|    }
-require_relative 'chess_board'
-require_relative 'human_player'
+     \/__/        \/__/        \/__/        \/__/        \|__|
+   }
+
+PIECE_HASH = {
+  "King" => King,
+  "Queen" => Queen,
+  "Knight" => Knight,
+  "Rook" => Rook,
+  "Bishop" => Bishop,
+  "Pawn" => Pawn
+}
 
 class Game
   def initialize(white, black)
     @player1 = white
     @player2 = black
     @curr_player = @player1
-    @piece_hash = { "King" => King, "Queen" => Queen, "Knight" => Knight,
-                    "Rook" => Rook, "Bishop" => Bishop, "Pawn" => Pawn }
   end
 
   def play
@@ -29,10 +40,10 @@ class Game
 
     until @board.checkmate?(:w) || @board.checkmate?(:b)
       system('clear')
-      puts LOGO
-      @board.display(@moves.last(8))
+      @board.display
 
-
+      puts @move_outcome unless @move_outcome.nil?
+      puts "Check." if @board.in_check?(@curr_playPIECE_HASHer)
 
       turn
 
@@ -44,29 +55,23 @@ class Game
 
   def main_menu
     system('clear')
-    puts LOGO.colorize(:blink)
+    puts LOGO
+    puts
     puts "Type 'play' to start a standard game of chess."
     puts "Type 'custom' to create a custom board."
-    entry = gets.chomp
+    puts "Type 'load' to load saved game."
+
+    entry = gets.chomp.downcase
+
     if entry == 'play'
       @board = Board.new
     elsif entry == 'custom'
       @board = Board.new(true)
-
-      loop do
-        system('clear')
-        @board.display
-
-        puts "Enter custom piece to place in this format:"
-        puts "color, piece type, position (e.g. 'b queen b3')"
-        puts "Type 'q' to stop placing pieces."
-
-        entry = gets.chomp
-        break if entry[0] == 'q'
-        piece = parse_piece_string(entry)
-        @board[piece.pos] = piece
-      end
+      custom_piece_placement
+    elsif entry == 'load'
+      load_game
     end
+
     self.play
   end
 
@@ -74,23 +79,76 @@ class Game
 
   def turn
     begin
-      puts @move_outcome unless @move_outcome.nil?
-      puts "Check." if @board.in_check?(@curr_player)
-      puts "#{@curr_player.name}'s turn."
-      start, target = @curr_player.play_turn
+      input = @curr_player.get_input
+
+      save_game if input == 's'
+      if input == 'q'
+        quit_game
+        raise ""
+      end
+
+      start, target = input.scan(/[a-h]\d/)
       if start.nil? || target.nil?
         raise "Invalid input."
       end
+
       @move_outcome = make_move(@curr_player.color, parse(start), parse(target))
     rescue RuntimeError => e
+      system('clear')
+      @board.display
       puts e.message
-      puts "Please select valid move."
       retry
     end
     if @board[parse(target)].class == Pawn && @board[parse(target)].can_promote?
       pawn_promote(target)
     end
-    @moves << [start, target, @curr_player.color]
+    @board.moves << [start, target, @curr_player.color]
+  end
+
+  def load_game
+    puts "Enter filename to load:"
+    filename = gets.chomp
+    @board = YAML.load_file(filename)
+    @curr_player = @board.move_count.even? ? @player1 : @player2
+  end
+
+  def save_game
+    puts "Enter filename to save game as:"
+    filename = gets.chomp
+    File.open(filename, 'w') { |file| file.puts @board.to_yaml }
+    exit
+  end
+
+  def quit_game
+    puts "Are you sure you want to quit without saving? (y/n)"
+    input = gets.chomp.downcase
+    exit if input == 'y'
+  end
+
+  def custom_piece_placement
+    loop do
+      system('clear')
+      @board.display
+
+      puts "Enter custom piece to place in this format:"
+      puts "color, piece type, position (e.g. 'b queen b3')"
+      puts "Start entry with 'd' to remove pieces (e.g. 'd h6')"
+      puts "Type 'q' to stop placing pieces."
+      begin
+        entry = gets.chomp
+        break if entry[0] == 'q'
+        if entry[0] == 'd'
+          pos = parse(entry.split(' ')[1])
+          @board[pos] = nil
+        else
+          piece = parse_piece_string(entry)
+          @board[piece.pos] = piece
+        end
+      rescue
+        puts "Invalid format."
+        retry
+      end
+    end
   end
 
   def make_move(color, start, target)
@@ -118,8 +176,8 @@ class Game
     loop do
       puts "Pawn can be promoted. Input class for new piece."
       new_class = gets.chomp.capitalize
-      if @piece_hash.has_key?(new_class)
-        @board.pawn_promote(@board[parse(target)], @piece_hash[new_class])
+      if PIECE_HASH.has_key?(new_class)
+        @board.pawn_promote(@board[parse(target)], PIECE_HASH[new_class])
         break
       end
     end
@@ -129,7 +187,7 @@ class Game
   def parse_piece_string(input_string)
     color_string, piece_string, pos_string = input_string.split(' ')
     color = color_string.to_sym
-    piece_class = @piece_hash[piece_string.capitalize]
+    piece_class = PIECE_HASH[piece_string.capitalize]
     pos = parse(pos_string)
     piece_class.new(pos, @board, color)
   end
@@ -137,8 +195,8 @@ class Game
 end
 
 if __FILE__ == $PROGRAM_NAME
-  player1 = HumanPlayer.new(:w, 'Foo')
-  player2 = HumanPlayer.new(:b, 'Bar')
+  player1 = HumanPlayer.new(:w, 'White')
+  player2 = HumanPlayer.new(:b, 'Black')
   game = Game.new(player1, player2)
   game.main_menu
 end

@@ -6,11 +6,14 @@ class HumanPlayer
     @name = name
   end
 
-  def play_turn
+  def get_input
+    puts "#{@name}'s turn."
+    puts
+    puts "Enter 's' to save and quit."
+    puts "Enter 'q' to quit without saving."
+    puts
     print "Input start, target positions: "
-    move_string = gets.chomp
-    start, target = move_string.scan(/[a-h]\d/)
 
-    [start, target]
+    gets.chomp.downcase
   end
 end
