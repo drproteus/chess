@@ -33,29 +33,6 @@ class Board
     @board[row][col] = value
   end
 
-  def place_pieces
-    place_piece_row(0, :b)
-    place_pawn_row(1, :b)
-    place_pawn_row(6, :w)
-    place_piece_row(7, :w)
-  end
-
-  def place_pawn_row(row, color)
-    @board[row].each_with_index do |spot, i|
-       self[[row, i]] = Pawn.new([row, i], self, color)
-     end
-
-     nil
-  end
-
-  def place_piece_row(row, color)
-    starting_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
-    @board[row].each_with_index do |spot, i|
-      @board[row][i] = starting_row[i].new([row, i], self, color)
-    end
-
-    nil
-  end
 
   def display(moves)
     puts ''
@@ -115,8 +92,6 @@ class Board
     return unless pos_on_board?(start) && pos_on_board?(end_pos)
     piece = self[start]
     piece.move_to(end_pos)
-    # self[start], self[end_pos] = nil, piece
-
     nil
   end
 
@@ -141,6 +116,29 @@ class Board
     outcome
   end
 
+  def checkmate?(color)
+    pieces = self.pieces.select { |piece| piece.color == color }
+    pieces.all? { |piece| piece.valid_moves.empty? }
+  end
+
+  def dup
+    duped_board = Board.new
+    @board.each_with_index do |row, row_index|
+      row.each_with_index do |piece, col_index|
+        pos = [row_index, col_index]
+        if piece.nil?
+          duped_board[pos] = nil
+        else
+          duped_board[pos] = piece.class.new(pos, duped_board, piece.color)
+        end
+      end
+    end
+
+    duped_board
+  end
+
+  private
+
   def outcome_string(start, target)
     piece = self[start]
     target_piece = self[target]
@@ -157,25 +155,30 @@ class Board
     outcome
   end
 
-  def checkmate?(color)
-    pieces = self.pieces.select { |piece| piece.color == color }
-    pieces.all? { |piece| piece.valid_moves.empty? }
+  def place_pieces
+    place_piece_row(0, :b)
+    place_pawn_row(1, :b)
+    place_pawn_row(6, :w)
+    place_piece_row(7, :w)
   end
 
-  def dup
-    duped_board = Board.new #Array.new(8) { Array.new(8) }
-    @board.each_with_index do |row, row_index|
-      row.each_with_index do |piece, col_index|
-        pos = [row_index, col_index]
-        if piece.nil?
-          duped_board[pos] = nil
-        else
-          duped_board[pos] = piece.class.new(pos, duped_board, piece.color)
-        end
-      end
+  def place_pawn_row(row, color)
+    @board[row].each_with_index do |spot, i|
+       self[[row, i]] = Pawn.new([row, i], self, color)
+     end
+
+     nil
+  end
+
+  def place_piece_row(row, color)
+    starting_row = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+    @board[row].each_with_index do |spot, i|
+      @board[row][i] = starting_row[i].new([row, i], self, color)
     end
 
-    duped_board
+    nil
   end
+
+
 
 end

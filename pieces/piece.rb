@@ -23,11 +23,6 @@ class Piece
     @pos = target
   end
 
-  def move_within_boundaries?(pos)
-    row, col = pos
-    row.between?(0, @board.height - 1) && col.between?(0, @board.width - 1)
-  end
-
   def valid_moves
     moves.select { |move| valid_move?(move) }
   end
@@ -40,5 +35,12 @@ class Piece
     return false if !@board[target].nil? && @board[target].color == self.color
 
     true
+  end
+
+  private
+
+  def move_within_boundaries?(pos)
+    row, col = pos
+    row.between?(0, @board.height - 1) && col.between?(0, @board.width - 1)
   end
 end

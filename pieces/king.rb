@@ -28,6 +28,8 @@ class King < SteppingPiece
     super
   end
 
+  private
+
   def can_castle_left?(target)
     row, col = target
     3.times { |i| return false unless @board[[row, col + (i - 1)]].nil? }

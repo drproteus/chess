@@ -12,7 +12,6 @@ class Game
   end
 
   def play
-    # needs to communicate the correct color to the board
     move_outcome = nil
     start_time = Time.now
     start, target = nil, nil
@@ -43,6 +42,8 @@ class Game
     puts "Game time: #{Time.now - start_time}s"
 
   end
+
+  private
 
   def make_move(color, start, target)
     raise "Empty start position" if @board[start].nil?
