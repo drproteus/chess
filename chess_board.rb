@@ -140,6 +140,11 @@ class Board
       outcome = "#{piece.class}(#{piece.color}) took #{target_piece.class}(#{target_piece.color})"
     end
 
+    if piece.class == Pawn && piece.en_passant?(target)
+      target_piece_color = (piece.color == :w ? :b : :w)
+      outcome = "#{piece.class}(#{piece.color}) took #{piece.class}(#{target_piece_color}) en passant"
+    end
+
     outcome
   end
 
