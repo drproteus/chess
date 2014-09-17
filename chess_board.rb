@@ -9,11 +9,11 @@ require 'colorize'
 class Board
   attr_reader :move_count, :captured_pieces
 
-  def initialize
+  def initialize(custom_game = false)
     @board = Array.new(8) { Array.new(8) }
     @move_count = 0
     @captured_pieces = { :w => [], :b => [] }
-    place_pieces
+    place_pieces unless custom_game
   end
 
   def height
@@ -35,14 +35,14 @@ class Board
   end
 
 
-  def display(moves)
+  def display(moves= [])
     puts ''
     puts '     ' + ('a'..'h').to_a.join('  ') + '      Turn Log'
     @board.each_with_index do |row, row_index|
       print "  #{8 - row_index} "
       row.each_with_index do |piece, col_index|
         string = ' ' + (piece.nil? ? ' ' : piece.to_s) + ' '
-        if (row_index + col_index).even?
+        if (row_index + col_index).odd?
           print string.colorize(:background => :white)
         else
           print string
@@ -51,7 +51,16 @@ class Board
       print " #{8 - row_index}"
       unless moves.empty? || moves[row_index].nil?
         print "     #{moves[row_index].join('  ')}" if row_index.between?(0, 7)
+      else
+        print "              "
       end
+      print '   '
+      if row_index == 0
+        print @captured_pieces[:w].map(&:to_s).join(' ')
+      elsif row_index == 1
+        print @captured_pieces[:b].map(&:to_s).join(' ')
+      end
+
       puts
     end
     puts '     ' + ('a'..'h').to_a.join('  ')
@@ -168,6 +177,10 @@ class Board
     place_piece_row(7, :w)
   end
 
+  def place_piece(piece, pos, color)
+    self[pos] = piece.new(pos, self, color)
+  end
+
   def place_pawn_row(row, color)
     @board[row].each_with_index do |spot, i|
        self[[row, i]] = Pawn.new([row, i], self, color)
@@ -184,7 +197,5 @@ class Board
 
     nil
   end
-
-
 
 end

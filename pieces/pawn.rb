@@ -25,7 +25,6 @@ class Pawn < Piece
       end
     end
     super
-
   end
 
   def can_promote?
