@@ -1,0 +1,1195 @@
+--- &1 !ruby/object:Board
+board:
+- - !ruby/object:Rook
+    pos: &2
+    - 0
+    - 0
+    board: *1
+    color: :b
+    prev_pos: *2
+    last_turn_moved: 
+  - !ruby/object:Knight
+    pos: &3
+    - 0
+    - 1
+    board: *1
+    color: :b
+    prev_pos: *3
+    last_turn_moved: 
+  - !ruby/object:Bishop
+    pos: &4
+    - 0
+    - 2
+    board: *1
+    color: :b
+    prev_pos: *4
+    last_turn_moved: 
+  - !ruby/object:Queen
+    pos: &5
+    - 0
+    - 3
+    board: *1
+    color: :b
+    prev_pos: *5
+    last_turn_moved: 
+  - !ruby/object:King
+    pos: &6
+    - 0
+    - 4
+    board: *1
+    color: :b
+    prev_pos: *6
+    last_turn_moved: 
+  - !ruby/object:Bishop
+    pos: &7
+    - 0
+    - 5
+    board: *1
+    color: :b
+    prev_pos: *7
+    last_turn_moved: 
+  - !ruby/object:Knight
+    pos: &8
+    - 0
+    - 6
+    board: *1
+    color: :b
+    prev_pos: *8
+    last_turn_moved: 
+  - !ruby/object:Rook
+    pos: &9
+    - 0
+    - 7
+    board: *1
+    color: :b
+    prev_pos: *9
+    last_turn_moved: 
+- - !ruby/object:Pawn
+    pos: &10
+    - 1
+    - 0
+    board: *1
+    color: :b
+    prev_pos: *10
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &11
+    - 1
+    - 1
+    board: *1
+    color: :b
+    prev_pos: *11
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &12
+    - 1
+    - 2
+    board: *1
+    color: :b
+    prev_pos: *12
+    last_turn_moved: 
+  - 
+  - !ruby/object:Pawn
+    pos: &13
+    - 1
+    - 4
+    board: *1
+    color: :b
+    prev_pos: *13
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &14
+    - 1
+    - 5
+    board: *1
+    color: :b
+    prev_pos: *14
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &15
+    - 1
+    - 6
+    board: *1
+    color: :b
+    prev_pos: *15
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &16
+    - 1
+    - 7
+    board: *1
+    color: :b
+    prev_pos: *16
+    last_turn_moved: 
+- - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+- - 
+  - 
+  - 
+  - !ruby/object:Pawn
+    pos:
+    - 3
+    - 3
+    board: *1
+    color: :w
+    prev_pos:
+    - 4
+    - 2
+    last_turn_moved: 2
+  - 
+  - 
+  - 
+  - 
+- - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+- - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+- - !ruby/object:Pawn
+    pos: &17
+    - 6
+    - 0
+    board: *1
+    color: :w
+    prev_pos: *17
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &18
+    - 6
+    - 1
+    board: *1
+    color: :w
+    prev_pos: *18
+    last_turn_moved: 
+  - 
+  - !ruby/object:Pawn
+    pos: &19
+    - 6
+    - 3
+    board: *1
+    color: :w
+    prev_pos: *19
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &20
+    - 6
+    - 4
+    board: *1
+    color: :w
+    prev_pos: *20
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &21
+    - 6
+    - 5
+    board: *1
+    color: :w
+    prev_pos: *21
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &22
+    - 6
+    - 6
+    board: *1
+    color: :w
+    prev_pos: *22
+    last_turn_moved: 
+  - !ruby/object:Pawn
+    pos: &23
+    - 6
+    - 7
+    board: *1
+    color: :w
+    prev_pos: *23
+    last_turn_moved: 
+- - !ruby/object:Rook
+    pos: &24
+    - 7
+    - 0
+    board: *1
+    color: :w
+    prev_pos: *24
+    last_turn_moved: 
+  - !ruby/object:Knight
+    pos: &25
+    - 7
+    - 1
+    board: *1
+    color: :w
+    prev_pos: *25
+    last_turn_moved: 
+  - !ruby/object:Bishop
+    pos: &26
+    - 7
+    - 2
+    board: *1
+    color: :w
+    prev_pos: *26
+    last_turn_moved: 
+  - !ruby/object:Queen
+    pos: &27
+    - 7
+    - 3
+    board: *1
+    color: :w
+    prev_pos: *27
+    last_turn_moved: 
+  - !ruby/object:King
+    pos: &28
+    - 7
+    - 4
+    board: *1
+    color: :w
+    prev_pos: *28
+    last_turn_moved: 
+  - !ruby/object:Bishop
+    pos: &29
+    - 7
+    - 5
+    board: *1
+    color: :w
+    prev_pos: *29
+    last_turn_moved: 
+  - !ruby/object:Knight
+    pos: &30
+    - 7
+    - 6
+    board: *1
+    color: :w
+    prev_pos: *30
+    last_turn_moved: 
+  - !ruby/object:Rook
+    pos: &31
+    - 7
+    - 7
+    board: *1
+    color: :w
+    prev_pos: *31
+    last_turn_moved: 
+move_count: 3
+captured_pieces:
+  :w: []
+  :b:
+  - !ruby/object:Pawn
+    pos:
+    - 3
+    - 3
+    board: *1
+    color: :b
+    prev_pos:
+    - 1
+    - 3
+    last_turn_moved: 1
+moves:
+- - c2
+  - c4
+  - :w
+- - d7
+  - d5
+  - :b
+- - c4
+  - d5
+  - :w
+position_history:
+- &32 !ruby/object:Board
+  board:
+  - - !ruby/object:Rook
+      pos: &33
+      - 0
+      - 0
+      board: *32
+      color: :b
+      prev_pos: *33
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &34
+      - 0
+      - 1
+      board: *32
+      color: :b
+      prev_pos: *34
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &35
+      - 0
+      - 2
+      board: *32
+      color: :b
+      prev_pos: *35
+      last_turn_moved: 
+    - !ruby/object:Queen
+      pos: &36
+      - 0
+      - 3
+      board: *32
+      color: :b
+      prev_pos: *36
+      last_turn_moved: 
+    - !ruby/object:King
+      pos: &37
+      - 0
+      - 4
+      board: *32
+      color: :b
+      prev_pos: *37
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &38
+      - 0
+      - 5
+      board: *32
+      color: :b
+      prev_pos: *38
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &39
+      - 0
+      - 6
+      board: *32
+      color: :b
+      prev_pos: *39
+      last_turn_moved: 
+    - !ruby/object:Rook
+      pos: &40
+      - 0
+      - 7
+      board: *32
+      color: :b
+      prev_pos: *40
+      last_turn_moved: 
+  - - !ruby/object:Pawn
+      pos: &41
+      - 1
+      - 0
+      board: *32
+      color: :b
+      prev_pos: *41
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &42
+      - 1
+      - 1
+      board: *32
+      color: :b
+      prev_pos: *42
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &43
+      - 1
+      - 2
+      board: *32
+      color: :b
+      prev_pos: *43
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &44
+      - 1
+      - 3
+      board: *32
+      color: :b
+      prev_pos: *44
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &45
+      - 1
+      - 4
+      board: *32
+      color: :b
+      prev_pos: *45
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &46
+      - 1
+      - 5
+      board: *32
+      color: :b
+      prev_pos: *46
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &47
+      - 1
+      - 6
+      board: *32
+      color: :b
+      prev_pos: *47
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &48
+      - 1
+      - 7
+      board: *32
+      color: :b
+      prev_pos: *48
+      last_turn_moved: 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - !ruby/object:Pawn
+      pos: &49
+      - 4
+      - 2
+      board: *32
+      color: :w
+      prev_pos: *49
+      last_turn_moved: 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - !ruby/object:Pawn
+      pos: &50
+      - 6
+      - 0
+      board: *32
+      color: :w
+      prev_pos: *50
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &51
+      - 6
+      - 1
+      board: *32
+      color: :w
+      prev_pos: *51
+      last_turn_moved: 
+    - 
+    - !ruby/object:Pawn
+      pos: &52
+      - 6
+      - 3
+      board: *32
+      color: :w
+      prev_pos: *52
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &53
+      - 6
+      - 4
+      board: *32
+      color: :w
+      prev_pos: *53
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &54
+      - 6
+      - 5
+      board: *32
+      color: :w
+      prev_pos: *54
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &55
+      - 6
+      - 6
+      board: *32
+      color: :w
+      prev_pos: *55
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &56
+      - 6
+      - 7
+      board: *32
+      color: :w
+      prev_pos: *56
+      last_turn_moved: 
+  - - !ruby/object:Rook
+      pos: &57
+      - 7
+      - 0
+      board: *32
+      color: :w
+      prev_pos: *57
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &58
+      - 7
+      - 1
+      board: *32
+      color: :w
+      prev_pos: *58
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &59
+      - 7
+      - 2
+      board: *32
+      color: :w
+      prev_pos: *59
+      last_turn_moved: 
+    - !ruby/object:Queen
+      pos: &60
+      - 7
+      - 3
+      board: *32
+      color: :w
+      prev_pos: *60
+      last_turn_moved: 
+    - !ruby/object:King
+      pos: &61
+      - 7
+      - 4
+      board: *32
+      color: :w
+      prev_pos: *61
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &62
+      - 7
+      - 5
+      board: *32
+      color: :w
+      prev_pos: *62
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &63
+      - 7
+      - 6
+      board: *32
+      color: :w
+      prev_pos: *63
+      last_turn_moved: 
+    - !ruby/object:Rook
+      pos: &64
+      - 7
+      - 7
+      board: *32
+      color: :w
+      prev_pos: *64
+      last_turn_moved: 
+  move_count: 0
+  captured_pieces:
+    :w: []
+    :b: []
+  moves: []
+  position_history: []
+  fifty_move_rule_counter: 0
+- &65 !ruby/object:Board
+  board:
+  - - !ruby/object:Rook
+      pos: &66
+      - 0
+      - 0
+      board: *65
+      color: :b
+      prev_pos: *66
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &67
+      - 0
+      - 1
+      board: *65
+      color: :b
+      prev_pos: *67
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &68
+      - 0
+      - 2
+      board: *65
+      color: :b
+      prev_pos: *68
+      last_turn_moved: 
+    - !ruby/object:Queen
+      pos: &69
+      - 0
+      - 3
+      board: *65
+      color: :b
+      prev_pos: *69
+      last_turn_moved: 
+    - !ruby/object:King
+      pos: &70
+      - 0
+      - 4
+      board: *65
+      color: :b
+      prev_pos: *70
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &71
+      - 0
+      - 5
+      board: *65
+      color: :b
+      prev_pos: *71
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &72
+      - 0
+      - 6
+      board: *65
+      color: :b
+      prev_pos: *72
+      last_turn_moved: 
+    - !ruby/object:Rook
+      pos: &73
+      - 0
+      - 7
+      board: *65
+      color: :b
+      prev_pos: *73
+      last_turn_moved: 
+  - - !ruby/object:Pawn
+      pos: &74
+      - 1
+      - 0
+      board: *65
+      color: :b
+      prev_pos: *74
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &75
+      - 1
+      - 1
+      board: *65
+      color: :b
+      prev_pos: *75
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &76
+      - 1
+      - 2
+      board: *65
+      color: :b
+      prev_pos: *76
+      last_turn_moved: 
+    - 
+    - !ruby/object:Pawn
+      pos: &77
+      - 1
+      - 4
+      board: *65
+      color: :b
+      prev_pos: *77
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &78
+      - 1
+      - 5
+      board: *65
+      color: :b
+      prev_pos: *78
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &79
+      - 1
+      - 6
+      board: *65
+      color: :b
+      prev_pos: *79
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &80
+      - 1
+      - 7
+      board: *65
+      color: :b
+      prev_pos: *80
+      last_turn_moved: 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - !ruby/object:Pawn
+      pos: &81
+      - 3
+      - 3
+      board: *65
+      color: :b
+      prev_pos: *81
+      last_turn_moved: 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - !ruby/object:Pawn
+      pos: &82
+      - 4
+      - 2
+      board: *65
+      color: :w
+      prev_pos: *82
+      last_turn_moved: 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - !ruby/object:Pawn
+      pos: &83
+      - 6
+      - 0
+      board: *65
+      color: :w
+      prev_pos: *83
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &84
+      - 6
+      - 1
+      board: *65
+      color: :w
+      prev_pos: *84
+      last_turn_moved: 
+    - 
+    - !ruby/object:Pawn
+      pos: &85
+      - 6
+      - 3
+      board: *65
+      color: :w
+      prev_pos: *85
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &86
+      - 6
+      - 4
+      board: *65
+      color: :w
+      prev_pos: *86
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &87
+      - 6
+      - 5
+      board: *65
+      color: :w
+      prev_pos: *87
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &88
+      - 6
+      - 6
+      board: *65
+      color: :w
+      prev_pos: *88
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &89
+      - 6
+      - 7
+      board: *65
+      color: :w
+      prev_pos: *89
+      last_turn_moved: 
+  - - !ruby/object:Rook
+      pos: &90
+      - 7
+      - 0
+      board: *65
+      color: :w
+      prev_pos: *90
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &91
+      - 7
+      - 1
+      board: *65
+      color: :w
+      prev_pos: *91
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &92
+      - 7
+      - 2
+      board: *65
+      color: :w
+      prev_pos: *92
+      last_turn_moved: 
+    - !ruby/object:Queen
+      pos: &93
+      - 7
+      - 3
+      board: *65
+      color: :w
+      prev_pos: *93
+      last_turn_moved: 
+    - !ruby/object:King
+      pos: &94
+      - 7
+      - 4
+      board: *65
+      color: :w
+      prev_pos: *94
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &95
+      - 7
+      - 5
+      board: *65
+      color: :w
+      prev_pos: *95
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &96
+      - 7
+      - 6
+      board: *65
+      color: :w
+      prev_pos: *96
+      last_turn_moved: 
+    - !ruby/object:Rook
+      pos: &97
+      - 7
+      - 7
+      board: *65
+      color: :w
+      prev_pos: *97
+      last_turn_moved: 
+  move_count: 0
+  captured_pieces:
+    :w: []
+    :b: []
+  moves: []
+  position_history: []
+  fifty_move_rule_counter: 0
+- &98 !ruby/object:Board
+  board:
+  - - !ruby/object:Rook
+      pos: &99
+      - 0
+      - 0
+      board: *98
+      color: :b
+      prev_pos: *99
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &100
+      - 0
+      - 1
+      board: *98
+      color: :b
+      prev_pos: *100
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &101
+      - 0
+      - 2
+      board: *98
+      color: :b
+      prev_pos: *101
+      last_turn_moved: 
+    - !ruby/object:Queen
+      pos: &102
+      - 0
+      - 3
+      board: *98
+      color: :b
+      prev_pos: *102
+      last_turn_moved: 
+    - !ruby/object:King
+      pos: &103
+      - 0
+      - 4
+      board: *98
+      color: :b
+      prev_pos: *103
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &104
+      - 0
+      - 5
+      board: *98
+      color: :b
+      prev_pos: *104
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &105
+      - 0
+      - 6
+      board: *98
+      color: :b
+      prev_pos: *105
+      last_turn_moved: 
+    - !ruby/object:Rook
+      pos: &106
+      - 0
+      - 7
+      board: *98
+      color: :b
+      prev_pos: *106
+      last_turn_moved: 
+  - - !ruby/object:Pawn
+      pos: &107
+      - 1
+      - 0
+      board: *98
+      color: :b
+      prev_pos: *107
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &108
+      - 1
+      - 1
+      board: *98
+      color: :b
+      prev_pos: *108
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &109
+      - 1
+      - 2
+      board: *98
+      color: :b
+      prev_pos: *109
+      last_turn_moved: 
+    - 
+    - !ruby/object:Pawn
+      pos: &110
+      - 1
+      - 4
+      board: *98
+      color: :b
+      prev_pos: *110
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &111
+      - 1
+      - 5
+      board: *98
+      color: :b
+      prev_pos: *111
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &112
+      - 1
+      - 6
+      board: *98
+      color: :b
+      prev_pos: *112
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &113
+      - 1
+      - 7
+      board: *98
+      color: :b
+      prev_pos: *113
+      last_turn_moved: 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - !ruby/object:Pawn
+      pos: &114
+      - 3
+      - 3
+      board: *98
+      color: :w
+      prev_pos: *114
+      last_turn_moved: 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  - - !ruby/object:Pawn
+      pos: &115
+      - 6
+      - 0
+      board: *98
+      color: :w
+      prev_pos: *115
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &116
+      - 6
+      - 1
+      board: *98
+      color: :w
+      prev_pos: *116
+      last_turn_moved: 
+    - 
+    - !ruby/object:Pawn
+      pos: &117
+      - 6
+      - 3
+      board: *98
+      color: :w
+      prev_pos: *117
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &118
+      - 6
+      - 4
+      board: *98
+      color: :w
+      prev_pos: *118
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &119
+      - 6
+      - 5
+      board: *98
+      color: :w
+      prev_pos: *119
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &120
+      - 6
+      - 6
+      board: *98
+      color: :w
+      prev_pos: *120
+      last_turn_moved: 
+    - !ruby/object:Pawn
+      pos: &121
+      - 6
+      - 7
+      board: *98
+      color: :w
+      prev_pos: *121
+      last_turn_moved: 
+  - - !ruby/object:Rook
+      pos: &122
+      - 7
+      - 0
+      board: *98
+      color: :w
+      prev_pos: *122
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &123
+      - 7
+      - 1
+      board: *98
+      color: :w
+      prev_pos: *123
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &124
+      - 7
+      - 2
+      board: *98
+      color: :w
+      prev_pos: *124
+      last_turn_moved: 
+    - !ruby/object:Queen
+      pos: &125
+      - 7
+      - 3
+      board: *98
+      color: :w
+      prev_pos: *125
+      last_turn_moved: 
+    - !ruby/object:King
+      pos: &126
+      - 7
+      - 4
+      board: *98
+      color: :w
+      prev_pos: *126
+      last_turn_moved: 
+    - !ruby/object:Bishop
+      pos: &127
+      - 7
+      - 5
+      board: *98
+      color: :w
+      prev_pos: *127
+      last_turn_moved: 
+    - !ruby/object:Knight
+      pos: &128
+      - 7
+      - 6
+      board: *98
+      color: :w
+      prev_pos: *128
+      last_turn_moved: 
+    - !ruby/object:Rook
+      pos: &129
+      - 7
+      - 7
+      board: *98
+      color: :w
+      prev_pos: *129
+      last_turn_moved: 
+  move_count: 0
+  captured_pieces:
+    :w: []
+    :b: []
+  moves: []
+  position_history: []
+  fifty_move_rule_counter: 0
+fifty_move_rule_counter: 0

@@ -42,9 +42,9 @@ class King < SteppingPiece
 
   def can_castle_left?(target)
     row, col = target
-    3.times { |i| return false unless @board[[row, col + (i - 1)]].nil? }
-    rook_pos = [row, col - 2]
-    return false unless @board[rook_pos].class == Rook
+              3.times { |i| return false unless @board[[row, col + (i - 1)]].nil? }
+              rook_pos = [row, col - 2]
+              return false unless @board[rook_pos].class == Rook
     return false unless @board[rook_pos].last_turn_moved.nil?
 
     true

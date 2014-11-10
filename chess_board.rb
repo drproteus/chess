@@ -47,7 +47,7 @@ class Board
       row.each_with_index do |piece, col_index|
         string = ' ' + (piece.nil? ? ' ' : piece.to_s) + ' '
         if (row_index + col_index).odd?
-          print string.colorize(:background => :white)
+          print string.colorize(background: :red)
         else
           print string
         end
