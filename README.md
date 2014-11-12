@@ -1,4 +1,5 @@
-chess
-=====
+# chssr (chess in ruby)
 
-it's friggin' chess. human v. human, no ai here, bub.
+Dependencies: 'colorize gem'
+
+To run, ./chess.rb
